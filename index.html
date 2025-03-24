@@ -162,6 +162,130 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/01/22/%E6%98%A5%E7%A7%8B%E6%9D%AF2025/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="jayuyu">
+      <meta itemprop="description" content="To the sea of success">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Reverse">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/01/22/%E6%98%A5%E7%A7%8B%E6%9D%AF2025/" class="post-title-link" itemprop="url">春秋杯2025</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2025-01-22 00:00:00 / 修改时间：16:28:42" itemprop="dateCreated datePublished" datetime="2025-01-22T00:00:00+08:00">2025-01-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="iiZJM">KoOh</h2>
+
+<p><img src="/../image/1737127921565-d071b9c0-0e18-40ba-98ff-490f7327da61.png"></p>
+<p>这道题如果先去找主函数的方法，来到了这里，是一个base64加密，点开那个参数<img src="/../image/1737127980725-7b64051b-c673-42da-8c22-dbcf7bc45658.png"></p>
+<p>应该是base64加密变表</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line">str1 = <span class="string">&quot;zMXHz3TMywTLx2zSywCHzMfRzv9MBgfNiwzHA2vFzMXHzYeHiseHisf9&quot;</span></span><br><span class="line"></span><br><span class="line">string1 = <span class="string">&quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/&quot;</span></span><br><span class="line">string2 = <span class="string">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> (base64.b64decode(str1.translate(<span class="built_in">str</span>.maketrans(string1,string2))))</span><br><span class="line"><span class="comment">#flag&#123;fake_flag!fake_flag!fake_flag!!!!!!!&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>错误的flag，此时我们观察上图发现下面有一些字符串，看看交叉引用</p>
+<p>发现有一大串代码是处于爆红状态，发现有花指令，这个时候反编译</p>
+<p><img src="/../image/1737128271873-d18cfe27-9944-4037-abd3-5866cb180243.png"></p>
+<p><img src="/../image/1737128207838-c4c711db-c645-44ed-8597-aa44e23a09b4.png"></p>
+<p>此时看到这个hook，很明显是先解密那串很奇怪的字符串，解密之后是ida.exe,ollydbg等等，拍进程快照然后判断是不是在运行这些进程来反调试</p>
+<p>这个时候如果发现在调试的化，就会退出，这里的方法就是将eax的值设置为0，其实我是静态看的。</p>
+<p>之后发现了rc4的变种</p>
+<p><img src="/../image/1737128428395-2b48b3a6-ff5f-4a53-ae92-67ee7f6900ee.png"></p>
+<p>这里其实很明显的rc4，交exp</p>
+<p>注意两个点：<br>1.这里的rc4加密魔改点是最后的异或变成了-</p>
+<p>2.密钥被替代了</p>
+<p>当我去跟踪这些散落的代码的时候，发现他们的最开始引用都是在Tlscallback函数里面，也就是说都先于主函数进行</p>
+<p><img src="/../image/1737128680313-5a0d7bcc-5a04-48e0-a797-285fab8d5a42.png"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">RC4初始化函数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">rc4_init</span><span class="params">(<span class="type">unsigned</span> <span class="type">char</span>* s, <span class="type">unsigned</span> <span class="type">char</span>* key, <span class="type">unsigned</span> <span class="type">long</span> Len_k)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>;</span><br><span class="line">    <span class="type">char</span> k[<span class="number">256</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> tmp = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">256</span>; i++) &#123;</span><br><span class="line">        s[i] = i;</span><br><span class="line">        k[i] = key[i % Len_k];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">256</span>; i++) &#123;</span><br><span class="line">        j = (j + s[i] + k[i]) % <span class="number">256</span>;</span><br><span class="line">        tmp = s[i];</span><br><span class="line">        s[i] = s[j];</span><br><span class="line">        s[j] = tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">RC4加解密函数</span></span><br><span class="line"><span class="comment">unsigned char* Data     加解密的数据</span></span><br><span class="line"><span class="comment">unsigned long Len_D     加解密数据的长度</span></span><br><span class="line"><span class="comment">unsigned char* key      密钥</span></span><br><span class="line"><span class="comment">unsigned long Len_k     密钥长度</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">rc4_crypt</span><span class="params">(<span class="type">unsigned</span> <span class="type">char</span>* Data, <span class="type">unsigned</span> <span class="type">long</span> Len_D, <span class="type">unsigned</span> <span class="type">char</span>* key, <span class="type">unsigned</span> <span class="type">long</span> Len_k)</span> <span class="comment">//加解密</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> s[<span class="number">256</span>];</span><br><span class="line">    rc4_init(s, key, Len_k);</span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>, t = <span class="number">0</span>;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> k = <span class="number">0</span>;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> tmp;</span><br><span class="line">    <span class="keyword">for</span> (k = <span class="number">0</span>; k &lt; Len_D; k++) &#123;</span><br><span class="line">        i = (i + <span class="number">1</span>) % <span class="number">256</span>;</span><br><span class="line">        j = (j + s[i]) % <span class="number">256</span>;</span><br><span class="line">        tmp = s[i];</span><br><span class="line">        s[i] = s[j];</span><br><span class="line">        s[j] = tmp;</span><br><span class="line">        t = (s[i] + s[j])%<span class="number">256</span> ;</span><br><span class="line">        Data[k] = (<span class="type">unsigned</span> <span class="type">char</span>)((<span class="type">int</span>)Data[k] +(<span class="type">int</span>)s[t]);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//字符串密钥</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> key[] = <span class="string">&quot;DDDDAAAASSSS&quot;</span>;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> key_len = <span class="keyword">sizeof</span>(key)<span class="number">-1</span> ;</span><br><span class="line">    <span class="comment">//数组密钥</span></span><br><span class="line">    <span class="comment">//unsigned char key[] = &#123;&#125;;</span></span><br><span class="line">    <span class="comment">//unsigned long key_len = sizeof(key);</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//加解密数据</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> data[] = &#123; <span class="number">0x18</span>, <span class="number">0x9C</span>, <span class="number">0x47</span>, <span class="number">0x3D</span>, <span class="number">0x3B</span>, <span class="number">0xE1</span>, <span class="number">0x29</span>, <span class="number">0x27</span>, <span class="number">0x9F</span>, <span class="number">0x34</span>,</span><br><span class="line">                            <span class="number">0x83</span>, <span class="number">0xD5</span>, <span class="number">0xED</span>, <span class="number">0xB5</span>, <span class="number">0x6E</span>, <span class="number">0x59</span>, <span class="number">0x7F</span>, <span class="number">0xDE</span>, <span class="number">0x47</span>, <span class="number">0xD7</span>,</span><br><span class="line">                            <span class="number">0x65</span>, <span class="number">0x3F</span>, <span class="number">0x7A</span>, <span class="number">0x33</span>, <span class="number">0x5B</span>, <span class="number">0x64</span>, <span class="number">0xB6</span>, <span class="number">0xFA</span>, <span class="number">0x94</span>, <span class="number">0x55</span>,</span><br><span class="line">                            <span class="number">0x87</span>, <span class="number">0x42</span>, <span class="number">0x20</span>, <span class="number">0x06</span>, <span class="number">0x0C</span>, <span class="number">0x69</span>, <span class="number">0xFE</span>, <span class="number">0x72</span>, <span class="number">0xA9</span>, <span class="number">0xE4</span>,</span><br><span class="line">                            <span class="number">0xD1</span>, <span class="number">0x7C</span></span><br><span class="line">                            &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//加解密</span></span><br><span class="line">    rc4_crypt(data, <span class="keyword">sizeof</span>(data), key, key_len);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="keyword">sizeof</span>(data); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>, data[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//zstuctf&#123;xXx_team_Is_GooD</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="tUfjA">ez_RE</h2>
+
+<p><img src="/../image/1737207250507-82f8dc23-ed3b-47ff-87d6-fafcd6367159.png"></p>
+<p>进来发现了一个随机数种子，跟md5有关，接着是一个异或随机数，这里点开生成种子看看</p>
+<p><img src="/../image/1737207309017-dc42ecf5-c400-45ba-966e-9ba2bb449469.png"></p>
+<p>这段代码的具体意思是将函数的前1024个字节当种子，这里可能操作系统不同的化，编译器不同，电脑不同</p>
+<p> 代码中利用了 <code>custom_md5_init</code> 函数的<strong>内存布局</strong>作为加密输入的一部分。所谓“内存布局”，是指函数在运行时被加载到内存后，具体的机器指令、数据和偏移地址的排列形式。由于内存布局会受到编译器、操作系统、以及某些安全机制（例如地址空间随机化 ASLR）的影响，可能在不同运行环境下表现出不同的动态特性。  </p>
+<p>那怎么办，可以试试爆破种子。但是必须在Linux环境去爆破，</p>
+<p>具体Linux命令是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim ac.cpp</span><br><span class="line">gcc ac.cpp -o ae</span><br><span class="line">如果是c++</span><br><span class="line">g++ ac.cpp -o ae</span><br><span class="line">./ae</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="type">unsigned</span> <span class="type">char</span> Enc[] =</span><br><span class="line">&#123;</span><br><span class="line"><span class="number">0x5C</span>, <span class="number">0x76</span>, <span class="number">0x4A</span>, <span class="number">0x78</span>, <span class="number">0x15</span>, <span class="number">0x62</span>, <span class="number">0x05</span>, <span class="number">0x7C</span>, <span class="number">0x6B</span>, <span class="number">0x21</span>,</span><br><span class="line"><span class="number">0x40</span>, <span class="number">0x66</span>, <span class="number">0x5B</span>, <span class="number">0x1A</span>, <span class="number">0x48</span>, <span class="number">0x7A</span>, <span class="number">0x1E</span>, <span class="number">0x46</span>, <span class="number">0x7F</span>, <span class="number">0x28</span>,</span><br><span class="line"><span class="number">0x02</span>, <span class="number">0x75</span>, <span class="number">0x68</span>, <span class="number">0x2A</span>, <span class="number">0x34</span>, <span class="number">0x0C</span>, <span class="number">0x4B</span>, <span class="number">0x1D</span>, <span class="number">0x3D</span>, <span class="number">0x2E</span>,</span><br><span class="line"><span class="number">0x6B</span>, <span class="number">0x7A</span>, <span class="number">0x17</span>, <span class="number">0x45</span>, <span class="number">0x07</span>, <span class="number">0x75</span>, <span class="number">0x47</span>, <span class="number">0x27</span>, <span class="number">0x39</span>, <span class="number">0x78</span>,</span><br><span class="line"><span class="number">0x61</span>, <span class="number">0x0B</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// Crack!!!</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">long</span> <span class="type">long</span> i=<span class="number">0xB0000000</span>;i&lt;<span class="number">0xC0000000</span>;i++)</span><br><span class="line">&#123;</span><br><span class="line"><span class="built_in">srand</span>(i);</span><br><span class="line"><span class="type">int</span> randlist[<span class="number">42</span>]&#123;&#125;;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;<span class="number">42</span>;j++)</span><br><span class="line">randlist[j]=<span class="built_in">rand</span>()%<span class="number">127</span>;</span><br><span class="line"><span class="keyword">if</span>(randlist[<span class="number">0</span>] == (<span class="number">0x5C</span>^<span class="string">&#x27;f&#x27;</span>)</span><br><span class="line">&amp;&amp; randlist[<span class="number">1</span>] == (<span class="number">0x76</span>^<span class="string">&#x27;l&#x27;</span>)</span><br><span class="line">&amp;&amp; randlist[<span class="number">2</span>] == (<span class="number">0x4A</span>^<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">&amp;&amp; randlist[<span class="number">3</span>] == (<span class="number">0x78</span>^<span class="string">&#x27;g&#x27;</span>)</span><br><span class="line">&amp;&amp; randlist[<span class="number">4</span>] == (<span class="number">0x15</span>^<span class="string">&#x27;&#123;&#x27;</span>)</span><br><span class="line">)</span><br><span class="line">&#123;</span><br><span class="line">std::cout&lt;&lt;i&lt;&lt;std::endl;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">std::cin.<span class="built_in">get</span>();</span><br><span class="line"><span class="comment">//output: 3021285795</span></span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个爆破范围不是很确定，应该可以慢慢试，就小32位，不是很大，</p>
+<p>这里注意，因为这是linux文件，他们的c库不同，环境不同，所以exp必须在linux环境中跑</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;b799eb3a-59ee-4b3b-b49d-39080fc23e99&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
+      
+    </div>
+
+    
+    
+    
+
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2025/01/22/%E5%88%A9%E7%94%A8%E7%B3%BB%E7%BB%9F%E6%9C%BA%E5%88%B6%E5%8A%A0%E8%BD%BDDLL/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -534,130 +658,6 @@
 </code></pre>
 <p><strong>这个VM前缀一般代表的是窗口信息，一般表示用户与应用程序进行交互的时候。通过信息来通知应用程序</strong></p>
 
-      
-    </div>
-
-    
-    
-    
-
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2025/01/22/%E6%98%A5%E7%A7%8B%E6%9D%AF2025/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="jayuyu">
-      <meta itemprop="description" content="To the sea of success">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Reverse">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2025/01/22/%E6%98%A5%E7%A7%8B%E6%9D%AF2025/" class="post-title-link" itemprop="url">春秋杯2025</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2025-01-22 00:00:00 / 修改时间：16:28:42" itemprop="dateCreated datePublished" datetime="2025-01-22T00:00:00+08:00">2025-01-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>3.6k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="iiZJM">KoOh</h2>
-
-<p><img src="/../image/1737127921565-d071b9c0-0e18-40ba-98ff-490f7327da61.png"></p>
-<p>这道题如果先去找主函数的方法，来到了这里，是一个base64加密，点开那个参数<img src="/../image/1737127980725-7b64051b-c673-42da-8c22-dbcf7bc45658.png"></p>
-<p>应该是base64加密变表</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line">str1 = <span class="string">&quot;zMXHz3TMywTLx2zSywCHzMfRzv9MBgfNiwzHA2vFzMXHzYeHiseHisf9&quot;</span></span><br><span class="line"></span><br><span class="line">string1 = <span class="string">&quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/&quot;</span></span><br><span class="line">string2 = <span class="string">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> (base64.b64decode(str1.translate(<span class="built_in">str</span>.maketrans(string1,string2))))</span><br><span class="line"><span class="comment">#flag&#123;fake_flag!fake_flag!fake_flag!!!!!!!&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>错误的flag，此时我们观察上图发现下面有一些字符串，看看交叉引用</p>
-<p>发现有一大串代码是处于爆红状态，发现有花指令，这个时候反编译</p>
-<p><img src="/../image/1737128271873-d18cfe27-9944-4037-abd3-5866cb180243.png"></p>
-<p><img src="/../image/1737128207838-c4c711db-c645-44ed-8597-aa44e23a09b4.png"></p>
-<p>此时看到这个hook，很明显是先解密那串很奇怪的字符串，解密之后是ida.exe,ollydbg等等，拍进程快照然后判断是不是在运行这些进程来反调试</p>
-<p>这个时候如果发现在调试的化，就会退出，这里的方法就是将eax的值设置为0，其实我是静态看的。</p>
-<p>之后发现了rc4的变种</p>
-<p><img src="/../image/1737128428395-2b48b3a6-ff5f-4a53-ae92-67ee7f6900ee.png"></p>
-<p>这里其实很明显的rc4，交exp</p>
-<p>注意两个点：<br>1.这里的rc4加密魔改点是最后的异或变成了-</p>
-<p>2.密钥被替代了</p>
-<p>当我去跟踪这些散落的代码的时候，发现他们的最开始引用都是在Tlscallback函数里面，也就是说都先于主函数进行</p>
-<p><img src="/../image/1737128680313-5a0d7bcc-5a04-48e0-a797-285fab8d5a42.png"></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">RC4初始化函数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">rc4_init</span><span class="params">(<span class="type">unsigned</span> <span class="type">char</span>* s, <span class="type">unsigned</span> <span class="type">char</span>* key, <span class="type">unsigned</span> <span class="type">long</span> Len_k)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>;</span><br><span class="line">    <span class="type">char</span> k[<span class="number">256</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> tmp = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">256</span>; i++) &#123;</span><br><span class="line">        s[i] = i;</span><br><span class="line">        k[i] = key[i % Len_k];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">256</span>; i++) &#123;</span><br><span class="line">        j = (j + s[i] + k[i]) % <span class="number">256</span>;</span><br><span class="line">        tmp = s[i];</span><br><span class="line">        s[i] = s[j];</span><br><span class="line">        s[j] = tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">RC4加解密函数</span></span><br><span class="line"><span class="comment">unsigned char* Data     加解密的数据</span></span><br><span class="line"><span class="comment">unsigned long Len_D     加解密数据的长度</span></span><br><span class="line"><span class="comment">unsigned char* key      密钥</span></span><br><span class="line"><span class="comment">unsigned long Len_k     密钥长度</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">rc4_crypt</span><span class="params">(<span class="type">unsigned</span> <span class="type">char</span>* Data, <span class="type">unsigned</span> <span class="type">long</span> Len_D, <span class="type">unsigned</span> <span class="type">char</span>* key, <span class="type">unsigned</span> <span class="type">long</span> Len_k)</span> <span class="comment">//加解密</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> s[<span class="number">256</span>];</span><br><span class="line">    rc4_init(s, key, Len_k);</span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>, t = <span class="number">0</span>;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> k = <span class="number">0</span>;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> tmp;</span><br><span class="line">    <span class="keyword">for</span> (k = <span class="number">0</span>; k &lt; Len_D; k++) &#123;</span><br><span class="line">        i = (i + <span class="number">1</span>) % <span class="number">256</span>;</span><br><span class="line">        j = (j + s[i]) % <span class="number">256</span>;</span><br><span class="line">        tmp = s[i];</span><br><span class="line">        s[i] = s[j];</span><br><span class="line">        s[j] = tmp;</span><br><span class="line">        t = (s[i] + s[j])%<span class="number">256</span> ;</span><br><span class="line">        Data[k] = (<span class="type">unsigned</span> <span class="type">char</span>)((<span class="type">int</span>)Data[k] +(<span class="type">int</span>)s[t]);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//字符串密钥</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> key[] = <span class="string">&quot;DDDDAAAASSSS&quot;</span>;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> key_len = <span class="keyword">sizeof</span>(key)<span class="number">-1</span> ;</span><br><span class="line">    <span class="comment">//数组密钥</span></span><br><span class="line">    <span class="comment">//unsigned char key[] = &#123;&#125;;</span></span><br><span class="line">    <span class="comment">//unsigned long key_len = sizeof(key);</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//加解密数据</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> data[] = &#123; <span class="number">0x18</span>, <span class="number">0x9C</span>, <span class="number">0x47</span>, <span class="number">0x3D</span>, <span class="number">0x3B</span>, <span class="number">0xE1</span>, <span class="number">0x29</span>, <span class="number">0x27</span>, <span class="number">0x9F</span>, <span class="number">0x34</span>,</span><br><span class="line">                            <span class="number">0x83</span>, <span class="number">0xD5</span>, <span class="number">0xED</span>, <span class="number">0xB5</span>, <span class="number">0x6E</span>, <span class="number">0x59</span>, <span class="number">0x7F</span>, <span class="number">0xDE</span>, <span class="number">0x47</span>, <span class="number">0xD7</span>,</span><br><span class="line">                            <span class="number">0x65</span>, <span class="number">0x3F</span>, <span class="number">0x7A</span>, <span class="number">0x33</span>, <span class="number">0x5B</span>, <span class="number">0x64</span>, <span class="number">0xB6</span>, <span class="number">0xFA</span>, <span class="number">0x94</span>, <span class="number">0x55</span>,</span><br><span class="line">                            <span class="number">0x87</span>, <span class="number">0x42</span>, <span class="number">0x20</span>, <span class="number">0x06</span>, <span class="number">0x0C</span>, <span class="number">0x69</span>, <span class="number">0xFE</span>, <span class="number">0x72</span>, <span class="number">0xA9</span>, <span class="number">0xE4</span>,</span><br><span class="line">                            <span class="number">0xD1</span>, <span class="number">0x7C</span></span><br><span class="line">                            &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//加解密</span></span><br><span class="line">    rc4_crypt(data, <span class="keyword">sizeof</span>(data), key, key_len);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="keyword">sizeof</span>(data); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>, data[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//zstuctf&#123;xXx_team_Is_GooD</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="tUfjA">ez_RE</h2>
-
-<p><img src="/../image/1737207250507-82f8dc23-ed3b-47ff-87d6-fafcd6367159.png"></p>
-<p>进来发现了一个随机数种子，跟md5有关，接着是一个异或随机数，这里点开生成种子看看</p>
-<p><img src="/../image/1737207309017-dc42ecf5-c400-45ba-966e-9ba2bb449469.png"></p>
-<p>这段代码的具体意思是将函数的前1024个字节当种子，这里可能操作系统不同的化，编译器不同，电脑不同</p>
-<p> 代码中利用了 <code>custom_md5_init</code> 函数的<strong>内存布局</strong>作为加密输入的一部分。所谓“内存布局”，是指函数在运行时被加载到内存后，具体的机器指令、数据和偏移地址的排列形式。由于内存布局会受到编译器、操作系统、以及某些安全机制（例如地址空间随机化 ASLR）的影响，可能在不同运行环境下表现出不同的动态特性。  </p>
-<p>那怎么办，可以试试爆破种子。但是必须在Linux环境去爆破，</p>
-<p>具体Linux命令是</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim ac.cpp</span><br><span class="line">gcc ac.cpp -o ae</span><br><span class="line">如果是c++</span><br><span class="line">g++ ac.cpp -o ae</span><br><span class="line">./ae</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="type">unsigned</span> <span class="type">char</span> Enc[] =</span><br><span class="line">&#123;</span><br><span class="line"><span class="number">0x5C</span>, <span class="number">0x76</span>, <span class="number">0x4A</span>, <span class="number">0x78</span>, <span class="number">0x15</span>, <span class="number">0x62</span>, <span class="number">0x05</span>, <span class="number">0x7C</span>, <span class="number">0x6B</span>, <span class="number">0x21</span>,</span><br><span class="line"><span class="number">0x40</span>, <span class="number">0x66</span>, <span class="number">0x5B</span>, <span class="number">0x1A</span>, <span class="number">0x48</span>, <span class="number">0x7A</span>, <span class="number">0x1E</span>, <span class="number">0x46</span>, <span class="number">0x7F</span>, <span class="number">0x28</span>,</span><br><span class="line"><span class="number">0x02</span>, <span class="number">0x75</span>, <span class="number">0x68</span>, <span class="number">0x2A</span>, <span class="number">0x34</span>, <span class="number">0x0C</span>, <span class="number">0x4B</span>, <span class="number">0x1D</span>, <span class="number">0x3D</span>, <span class="number">0x2E</span>,</span><br><span class="line"><span class="number">0x6B</span>, <span class="number">0x7A</span>, <span class="number">0x17</span>, <span class="number">0x45</span>, <span class="number">0x07</span>, <span class="number">0x75</span>, <span class="number">0x47</span>, <span class="number">0x27</span>, <span class="number">0x39</span>, <span class="number">0x78</span>,</span><br><span class="line"><span class="number">0x61</span>, <span class="number">0x0B</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// Crack!!!</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">long</span> <span class="type">long</span> i=<span class="number">0xB0000000</span>;i&lt;<span class="number">0xC0000000</span>;i++)</span><br><span class="line">&#123;</span><br><span class="line"><span class="built_in">srand</span>(i);</span><br><span class="line"><span class="type">int</span> randlist[<span class="number">42</span>]&#123;&#125;;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;<span class="number">42</span>;j++)</span><br><span class="line">randlist[j]=<span class="built_in">rand</span>()%<span class="number">127</span>;</span><br><span class="line"><span class="keyword">if</span>(randlist[<span class="number">0</span>] == (<span class="number">0x5C</span>^<span class="string">&#x27;f&#x27;</span>)</span><br><span class="line">&amp;&amp; randlist[<span class="number">1</span>] == (<span class="number">0x76</span>^<span class="string">&#x27;l&#x27;</span>)</span><br><span class="line">&amp;&amp; randlist[<span class="number">2</span>] == (<span class="number">0x4A</span>^<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">&amp;&amp; randlist[<span class="number">3</span>] == (<span class="number">0x78</span>^<span class="string">&#x27;g&#x27;</span>)</span><br><span class="line">&amp;&amp; randlist[<span class="number">4</span>] == (<span class="number">0x15</span>^<span class="string">&#x27;&#123;&#x27;</span>)</span><br><span class="line">)</span><br><span class="line">&#123;</span><br><span class="line">std::cout&lt;&lt;i&lt;&lt;std::endl;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">std::cin.<span class="built_in">get</span>();</span><br><span class="line"><span class="comment">//output: 3021285795</span></span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这个爆破范围不是很确定，应该可以慢慢试，就小32位，不是很大，</p>
-<p>这里注意，因为这是linux文件，他们的c库不同，环境不同，所以exp必须在linux环境中跑</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;b799eb3a-59ee-4b3b-b49d-39080fc23e99&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
       
     </div>
 
