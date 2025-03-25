@@ -2,12 +2,12 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Reverse</title>
   
-  <subtitle>Android World</subtitle>
-  <link href="https://blog.aqcoder.cn/atom.xml" rel="self"/>
+  <subtitle>逆流而上，破解安卓玄机</subtitle>
+  <link href="https://jayuyu.github.io/atom.xml" rel="self"/>
   
-  <link href="https://blog.aqcoder.cn/"/>
+  <link href="https://jayuyu.github.io/"/>
   <updated>2025-03-24T15:27:49.859Z</updated>
-  <id>https://blog.aqcoder.cn/</id>
+  <id>https://jayuyu.github.io/</id>
   
   <author>
     <name>jayuyu</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>我的第一篇博客</title>
-    <link href="https://blog.aqcoder.cn/posts/f929/"/>
-    <id>https://blog.aqcoder.cn/posts/f929/</id>
+    <link href="https://jayuyu.github.io/posts/f929/"/>
+    <id>https://jayuyu.github.io/posts/f929/</id>
     <published>2025-01-21T16:00:00.000Z</published>
     <updated>2025-03-24T15:27:49.859Z</updated>
     
@@ -34,15 +34,15 @@
     
     
     
-    <category term="注入" scheme="https://blog.aqcoder.cn/categories/%E6%B3%A8%E5%85%A5/"/>
+    <category term="注入" scheme="https://jayuyu.github.io/categories/%E6%B3%A8%E5%85%A5/"/>
     
     
   </entry>
   
   <entry>
     <title>春秋杯2025</title>
-    <link href="https://blog.aqcoder.cn/posts/4f0/"/>
-    <id>https://blog.aqcoder.cn/posts/4f0/</id>
+    <link href="https://jayuyu.github.io/posts/4f0/"/>
+    <id>https://jayuyu.github.io/posts/4f0/</id>
     <published>2025-01-21T16:00:00.000Z</published>
     <updated>2025-03-24T15:27:49.862Z</updated>
     
@@ -59,7 +59,7 @@
     
     
     
-    <category term="技术" scheme="https://blog.aqcoder.cn/categories/%E6%8A%80%E6%9C%AF/"/>
+    <category term="技术" scheme="https://jayuyu.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
     
     
   </entry>
