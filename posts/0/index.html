@@ -1,0 +1,241 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Reverse | Reverse</title><meta name="author" content="jayuyu"><meta name="copyright" content="jayuyu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="https:&#x2F;&#x2F;bbs.kanxue.com&#x2F;thread-279604.htm#msg_header_h2_5 https:&#x2F;&#x2F;blog.csdn.net&#x2F;abel_big_xu&#x2F;article&#x2F;details&#x2F;117927674 花指令一直是逆向的一个比较常见而多变的东西，对于逆向人员来说也是一个比较大的阻碍，随着反编译工具的升级，现在的IDA9.0已经可以忽视一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Reverse">
+<meta property="og:url" content="https://jayuyu.github.io/posts/0/index.html">
+<meta property="og:site_name" content="Reverse">
+<meta property="og:description" content="https:&#x2F;&#x2F;bbs.kanxue.com&#x2F;thread-279604.htm#msg_header_h2_5 https:&#x2F;&#x2F;blog.csdn.net&#x2F;abel_big_xu&#x2F;article&#x2F;details&#x2F;117927674 花指令一直是逆向的一个比较常见而多变的东西，对于逆向人员来说也是一个比较大的阻碍，随着反编译工具的升级，现在的IDA9.0已经可以忽视一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jayuyu.github.io/img/avater.png">
+<meta property="article:published_time" content="2025-03-25T13:09:57.343Z">
+<meta property="article:modified_time" content="2025-03-25T13:09:49.736Z">
+<meta property="article:author" content="jayuyu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jayuyu.github.io/img/avater.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "url": "https://jayuyu.github.io/posts/0/",
+  "image": "https://jayuyu.github.io/img/avater.png",
+  "datePublished": "2025-03-25T13:09:57.343Z",
+  "dateModified": "2025-03-25T13:09:49.736Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "jayuyu",
+      "url": "https://jayuyu.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://jayuyu.github.io/posts/0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Reverse',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Reverse" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avater.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-list"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Links</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> about</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/back.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/yes.png" alt="Logo"><span class="site-name">Reverse</span></a><a class="nav-page-title" href="/"><span class="site-name">Reverse</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-list"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Links</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> about</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">无标题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-25T13:09:57.343Z" title="发表于 2025-03-25 21:09:57">2025-03-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-25T13:09:49.736Z" title="更新于 2025-03-25 21:09:49">2025-03-25</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-279604.htm#msg_header_h2_5">https://bbs.kanxue.com/thread-279604.htm#msg_header_h2_5</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/abel_big_xu/article/details/117927674">https://blog.csdn.net/abel_big_xu&#x2F;article&#x2F;details&#x2F;117927674</a></p>
+<p>花指令一直是逆向的一个比较常见而多变的东西，对于逆向人员来说也是一个比较大的阻碍，随着反编译工具的升级，现在的IDA9.0已经可以忽视一些花指令正常反编译，不过对于逆向人员还是要掌握</p>
+<p>下面我用原理-&gt;形式-&gt;去除来讲解CTF比赛中经常的花指令</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p> <strong>花指令的核心原理是通过在代码中插入不影响程序实际行为的指令，来迷惑分析者或调试器。它们一般不执行有用的操作</strong>，但能让程序看起来更复杂或者改变程序的行为，从而导致逆向工程的困难。  </p>
+<p>也就是IDA在反编译程序的时候是从函数的入口至上而下一一把机器码转换成汇编语言再变成c语言程序</p>
+<h2 id="形式"><a href="#形式" class="headerlink" title="形式"></a>形式</h2><h3 id="永真永假跳转"><a href="#永真永假跳转" class="headerlink" title="永真永假跳转"></a>永真永假跳转</h3><p>这种花指令可以说是最基础也是最常见的花指令，</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">dummy_function</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 这个函数仅作为花指令的目标</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;This is a dummy function.\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">int</span> x = <span class="number">0</span>;</span><br><span class="line">    __asm &#123;</span><br><span class="line">        xor eax, eax      </span><br><span class="line">        test eax, eax      </span><br><span class="line">        jz target_label    </span><br><span class="line">        jnz target_label   </span><br><span class="line">        _emit <span class="number">0xe8</span></span><br><span class="line"></span><br><span class="line">     </span><br><span class="line">    target_label:</span><br><span class="line">        call dummy_function </span><br><span class="line">    &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如以上代码，这里正常运行是不会接触到第15行代码，而我们说了IDA的线性扫描，自然会把0xe8当作机器码反编译，这个时候IDA就会看不懂了，就会出现这里的爆红</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/48373702/1742824537300-1081ab69-2e5f-4c80-91d1-5d1ad39d513c.png"></p>
+<h4 id="去除方法"><a href="#去除方法" class="headerlink" title="去除方法"></a>去除方法</h4><p>既然会错误的把junkcode反编译，那我们的应对措施自然就是删除这个机器码了，在FA那个标签出先按U，转化成无定义，再把0E8h指令的下面按C，最后删除nop掉这个0E8h就行，记得在函数开头按P正常反编译为函数就行</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/48373702/1742824790052-33ee579f-3ee9-467a-8a29-090da4f42da4.png"></p>
+<h3 id="永真永假跳转2"><a href="#永真永假跳转2" class="headerlink" title="永真永假跳转2"></a>永真永假跳转2</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">dummy_function</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 这个函数仅作为花指令的目标</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;This is a dummy function.\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">int</span> x = <span class="number">0</span>;</span><br><span class="line">	_asm &#123;</span><br><span class="line">		test eax, <span class="number">0</span>         <span class="comment">// 构造必然条件实现跳转，绕过破坏堆栈平衡的指令</span></span><br><span class="line">		jz label</span><br><span class="line">		add esp, <span class="number">0x1</span></span><br><span class="line">		label:</span><br><span class="line">		call dummy_function</span><br><span class="line">	&#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这个test eax，0</p>
+<p> 将寄存器 <code>eax</code> 和常数 <code>0</code> 进行按位与运算，但由于与 <code>0</code> 按位与的结果总是 <code>0</code></p>
+<p>所以会直接跳转到label处，不会执行这个add esp，0x1</p>
+<h4 id="去除方法-1"><a href="#去除方法-1" class="headerlink" title="去除方法"></a>去除方法</h4><p>其实这种花指令都不需要怎么去除，一般现在IDA都会自己识别出来，当然，也可以直接删除它绕过的部分</p>
+<h3 id="call-ret"><a href="#call-ret" class="headerlink" title="call&amp;ret"></a>call&amp;ret</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">_asm&#123;</span><br><span class="line">   call label</span><br><span class="line">   label:</span><br><span class="line">   add [esp],<span class="number">5</span></span><br><span class="line">   ret</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里用极客大挑战的CPP-flower为例</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/48373702/1742873262770-512694e9-f879-47d7-a2cb-f7e4d4b9731b.png"></p>
+<p>可以看见，这里的call419DA6，会跳到这个函数，而且这个函数没有做其他的操作，</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/48373702/1742873363751-68228de7-ca5b-4a26-852d-3c6556240883.png"></p>
+<p>仔细观察这里，esp+4是在返回地址处，也就是call指令的下面的地址，之后这个值+12，说明返回地址加了12h，这里手动计算一下，本来的返回地址是</p>
+<p>00419DA1，现在变成了00419DB3，所以正常流程就是这样</p>
+<h4 id="去除方法-2"><a href="#去除方法-2" class="headerlink" title="去除方法"></a>去除方法</h4><p>因为返回地址直接跳到了B3地址，所以我们直接nop掉9C-B2的全部指令就行</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/48373702/1742873522082-93192b9e-fdd8-4b46-ae5d-ea0a891c57fe.png"></p>
+<p>这里可以看出红色的地址没有连接上，这样直接去函数开头按u，c，p的话就会只能一半，这里的办法是删除这个sub_419DA6函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/48373702/1742873744607-c81277ff-44b0-4d6c-8433-20e70a67a5d2.png"></p>
+<p>点击delte function就可以了</p>
+<h3 id="杂糅指令"><a href="#杂糅指令" class="headerlink" title="杂糅指令"></a>杂糅指令</h3><p>我自己取的名字，这种花是比较难的了，有幸在VN赛题里面看到过</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/48373702/1742882969563-96d8e460-7e38-4628-8bb7-e0d07854eaf4.png"></p>
+<p>普通的返回值，这个背景是初始化函数，我一直绕不过反调试，所以去找的初始化函数，但是点开汇编却另有玄机</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/48373702/1742883034371-1ef84494-d301-4996-989a-64fd4c7b2cf8.png"></p>
+<p>直接爆红了，有反调试</p>
+<p>像这种call    $+5指令的意思就是跳转到call的下一条指令去执行，并且把下面的地址压入栈中当返回地址，这里前面还有push eax 和pop eax</p>
+<h4 id="去除方法-3"><a href="#去除方法-3" class="headerlink" title="去除方法"></a>去除方法</h4><p>所以直接nop掉这个push 到pop</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/48373702/1742883647394-264a0b14-6214-453b-bd92-0ecef41dd075.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/48373702/1742883660069-792f5b27-4863-4cc4-a8d6-8433e6647dd4.png"></p>
+<p>之后正常反编译出来了，这里插一个细节，如果想要修改指令去去除反调试的话直接</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/48373702/1742883722000-9916d798-a5a8-4bc5-a006-778b716d061f.png"></p>
+<p>Apply patches to 保存就可以了。</p>
+<h3 id="花指令-异常"><a href="#花指令-异常" class="headerlink" title="花指令+异常"></a>花指令+异常</h3><p><img src="https://cdn.nlark.com/yuque/0/2025/png/48373702/1742540279039-c9f2fbab-2543-4e30-8aea-1d5794e7f3a6.png?x-oss-process=image/format,webp"></p>
+<p>这里分析了之后发现如果是调试的话就会直接jmp   eax，如果没有的话就是先加再jmp</p>
+<p>像这种花的话是会影响程序运行的，直接看懂，能调试就行了</p>
+<h3 id="堆区过大"><a href="#堆区过大" class="headerlink" title="堆区过大"></a>堆区过大</h3><p>参考文章</p>
+<p><a target="_blank" rel="noopener" href="https://hex-rays.com/blog/igors-tip-of-the-week-147-fixing-stack-frame-is-too-big">https://hex-rays.com/blog/igors-tip-of-the-week-147-fixing-stack-frame-is-too-big</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/48373702/1741699580098-9ce70f1b-af88-44c7-9785-d478e69a47ca.png"></p>
+<p>这种的代码，入栈的数据太大了，考虑去代码里面找找这个参数，考虑删掉，因为堆区太大影响力编译，当然，也有可能是因为中间在删掉花指令的时候误删了导致的</p>
+<h2 id="idapython自动去除花指令"><a href="#idapython自动去除花指令" class="headerlink" title="idapython自动去除花指令"></a>idapython自动去除花指令</h2><p>如果一个程序花指令过于多的花，就可以尝试idapython直接手动去除</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> idc</span><br><span class="line"><span class="keyword">import</span> ida_bytes</span><br><span class="line"></span><br><span class="line">begin = xxxxxx</span><br><span class="line">end = xxxxxx</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(begin, end):</span><br><span class="line">    <span class="keyword">if</span> idc.get_wide_byte(i) == <span class="number">0x74</span>:          <span class="comment">#修改为机器码</span></span><br><span class="line">        <span class="keyword">if</span> idc.get_wide_byte(i + <span class="number">1</span>) == <span class="number">0xFA</span>:</span><br><span class="line">            ida_bytes.patch_byte(i, <span class="number">0x90</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;junkcode noped at address: 0x&#123;:X&#125;&quot;</span>.<span class="built_in">format</span>(i))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;done&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://jayuyu.github.io">jayuyu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://jayuyu.github.io/posts/0/">https://jayuyu.github.io/posts/0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://jayuyu.github.io" target="_blank">Reverse</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/avater.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/posts/4f0/" title="春秋杯2025"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">春秋杯2025</div></div><div class="info-2"><div class="info-item-1">KoOh   这道题如果先去找主函数的方法，来到了这里，是一个base64加密，点开那个参数 应该是base64加密变表 import base64import stringstr1 = &quot;zMXHz3TMywTLx2zSywCHzMfRzv9MBgfNiwzHA2vFzMXHzYeHiseHisf9&quot;string1 = &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/&quot;string2 = &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;print...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avater.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">jayuyu</div><div class="author-info-description">To the sea of success</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%A2%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">形式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B0%B8%E7%9C%9F%E6%B0%B8%E5%81%87%E8%B7%B3%E8%BD%AC"><span class="toc-number">2.1.</span> <span class="toc-text">永真永假跳转</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%BB%E9%99%A4%E6%96%B9%E6%B3%95"><span class="toc-number">2.1.1.</span> <span class="toc-text">去除方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B0%B8%E7%9C%9F%E6%B0%B8%E5%81%87%E8%B7%B3%E8%BD%AC2"><span class="toc-number">2.2.</span> <span class="toc-text">永真永假跳转2</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%BB%E9%99%A4%E6%96%B9%E6%B3%95-1"><span class="toc-number">2.2.1.</span> <span class="toc-text">去除方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#call-ret"><span class="toc-number">2.3.</span> <span class="toc-text">call&amp;ret</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%BB%E9%99%A4%E6%96%B9%E6%B3%95-2"><span class="toc-number">2.3.1.</span> <span class="toc-text">去除方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%82%E7%B3%85%E6%8C%87%E4%BB%A4"><span class="toc-number">2.4.</span> <span class="toc-text">杂糅指令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%BB%E9%99%A4%E6%96%B9%E6%B3%95-3"><span class="toc-number">2.4.1.</span> <span class="toc-text">去除方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8A%B1%E6%8C%87%E4%BB%A4-%E5%BC%82%E5%B8%B8"><span class="toc-number">2.5.</span> <span class="toc-text">花指令+异常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A0%86%E5%8C%BA%E8%BF%87%E5%A4%A7"><span class="toc-number">2.6.</span> <span class="toc-text">堆区过大</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#idapython%E8%87%AA%E5%8A%A8%E5%8E%BB%E9%99%A4%E8%8A%B1%E6%8C%87%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text">idapython自动去除花指令</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/0/" title="无标题">无标题</a><time datetime="2025-03-25T13:09:57.343Z" title="发表于 2025-03-25 21:09:57">2025-03-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/f929/" title="我的第一篇博客">我的第一篇博客</a><time datetime="2025-01-21T16:00:00.000Z" title="发表于 2025-01-22 00:00:00">2025-01-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/4f0/" title="春秋杯2025">春秋杯2025</a><time datetime="2025-01-21T16:00:00.000Z" title="发表于 2025-01-22 00:00:00">2025-01-22</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2025 By jayuyu</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.0-b1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
